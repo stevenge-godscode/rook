@@ -23,9 +23,9 @@ configOverride:
 # Installs a debugging toolbox deployment
 toolbox:
   # -- Enable Ceph debugging pod deployment. See [toolbox](../Troubleshooting/ceph-toolbox.md)
-  enabled: false
+  enabled: true
   # -- Toolbox image, defaults to the image used by the Ceph cluster
-  image: #quay.io/ceph/ceph:v18.2.4
+  image: registry.godscode.com.cn/gtja/public/ceph/ceph:v18.2.4
   # -- Toolbox tolerations
   tolerations: []
   # -- Toolbox affinity
@@ -73,8 +73,8 @@ monitoring:
 pspEnable: false
 
 # imagePullSecrets option allow to pull docker images from private docker registry. Option will be passed to all service accounts.
-# imagePullSecrets:
-# - name: my-registry-secret
+imagePullSecrets:
+- name: gitlab-root-secret
 
 # All values below are taken from the CephCluster CRD
 # -- Cluster configuration.
@@ -94,7 +94,7 @@ cephClusterSpec:
     # versions running within the cluster. See tags available at https://hub.docker.com/r/ceph/ceph/tags/.
     # If you want to be more precise, you can always use a timestamp tag such as quay.io/ceph/ceph:v18.2.4-20240724
     # This tag might not contain a new Ceph version, just security fixes from the underlying operating system, which will reduce vulnerabilities
-    image: quay.io/ceph/ceph:v18.2.4
+    image: registry.godscode.com.cn/gtja/public/ceph/ceph:v18.2.4
     # Whether to allow unsupported versions of Ceph. Currently `quincy`, and `reef` are supported.
     # Future versions such as `squid` (v19) would require this to be set to `true`.
     # Do not set to true in production.
@@ -289,19 +289,19 @@ cephClusterSpec:
       limits:
         memory: "1Gi"
       requests:
-        cpu: "500m"
+        # cpu: "500m"
         memory: "512Mi"
     mon:
       limits:
         memory: "2Gi"
       requests:
-        cpu: "1000m"
+        # cpu: "1000m"
         memory: "1Gi"
     osd:
       limits:
         memory: "4Gi"
       requests:
-        cpu: "1000m"
+        # cpu: "1000m"
         memory: "4Gi"
     prepareosd:
       # limits: It is not recommended to set limits on the OSD prepare job
@@ -313,7 +313,7 @@ cephClusterSpec:
       #         OSDs ; for larger devices 2Gi may be required.
       #         cf. https://github.com/rook/rook/pull/11103
       requests:
-        cpu: "500m"
+        # cpu: "500m"
         memory: "50Mi"
     mgr-sidecar:
       limits:
@@ -337,7 +337,7 @@ cephClusterSpec:
       limits:
         memory: "1Gi"
       requests:
-        cpu: "500m"
+        # cpu: "500m"
         memory: "100Mi"
     exporter:
       limits:
@@ -524,7 +524,7 @@ cephFileSystems:
           limits:
             memory: "4Gi"
           requests:
-            cpu: "1000m"
+            # cpu: "1000m"
             memory: "4Gi"
         priorityClassName: system-cluster-critical
     storageClass:
@@ -599,7 +599,7 @@ cephObjectStores:
           limits:
             memory: "2Gi"
           requests:
-            cpu: "1000m"
+            # cpu: "1000m"
             memory: "1Gi"
         # securePort: 443
         # sslCertificateRef:

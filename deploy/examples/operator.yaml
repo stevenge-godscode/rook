@@ -595,9 +595,11 @@ spec:
           operator: Exists
           tolerationSeconds: 5
       serviceAccountName: rook-ceph-system
+      imagePullSecrets:
+      - name: gitlab-root-secret
       containers:
         - name: rook-ceph-operator
-          image: rook/ceph:master
+          image: registry.godscode.com.cn/gtja/public/rook/ceph:master
           args: ["ceph", "operator"]
           securityContext:
             runAsNonRoot: true

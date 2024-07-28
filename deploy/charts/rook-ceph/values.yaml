@@ -1,10 +1,12 @@
 # Default values for rook-ceph-operator
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+imagePullSecrets:
+- name: gitlab-root-secret
 
 image:
   # -- Image
-  repository: rook/ceph
+  repository: registry.godscode.com.cn/gtja/public/rook/ceph
   # -- Image tag
   # @default -- `master`
   tag: master
@@ -483,41 +485,72 @@ csi:
   # @default -- `26s`
   csiLeaderElectionRetryPeriod:
 
+
   cephcsi:
-    # -- Ceph CSI image repository
-    repository: quay.io/cephcsi/cephcsi
-    # -- Ceph CSI image tag
+    repository: registry.godscode.com.cn/gtja/public/cephcsi/cephcsi
     tag: v3.11.0
 
   registrar:
-    # -- Kubernetes CSI registrar image repository
-    repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
-    # -- Registrar image tag
+    repository: registry.godscode.com.cn/gtja/public/sig-storage/csi-node-driver-registrar
     tag: v2.10.1
 
   provisioner:
-    # -- Kubernetes CSI provisioner image repository
-    repository: registry.k8s.io/sig-storage/csi-provisioner
-    # -- Provisioner image tag
+    repository: registry.godscode.com.cn/gtja/public/sig-storage/csi-provisioner
     tag: v4.0.1
 
   snapshotter:
-    # -- Kubernetes CSI snapshotter image repository
-    repository: registry.k8s.io/sig-storage/csi-snapshotter
-    # -- Snapshotter image tag
+    repository: registry.godscode.com.cn/gtja/public/sig-storage/csi-snapshotter
     tag: v7.0.2
 
   attacher:
-    # -- Kubernetes CSI Attacher image repository
-    repository: registry.k8s.io/sig-storage/csi-attacher
-    # -- Attacher image tag
+    repository: registry.godscode.com.cn/gtja/public/sig-storage/csi-attacher
     tag: v4.5.1
 
   resizer:
-    # -- Kubernetes CSI resizer image repository
-    repository: registry.k8s.io/sig-storage/csi-resizer
-    # -- Resizer image tag
+    repository: registry.godscode.com.cn/gtja/public/sig-storage/csi-resizer
     tag: v1.10.1
+
+  csiAddons:
+    enabled: false
+    repository: registry.godscode.com.cn/gtja/public/csiaddons/k8s-sidecar
+    tag: v0.8.0
+
+  #
+  # cephcsi:
+  #   # -- Ceph CSI image repository
+  #   repository: quay.io/cephcsi/cephcsi
+  #   # -- Ceph CSI image tag
+  #   tag: v3.11.0
+
+  # registrar:
+  #   # -- Kubernetes CSI registrar image repository
+  #   repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+  #   # -- Registrar image tag
+  #   tag: v2.10.1
+  #
+  # provisioner:
+  #   # -- Kubernetes CSI provisioner image repository
+  #   repository: registry.k8s.io/sig-storage/csi-provisioner
+  #   # -- Provisioner image tag
+  #   tag: v4.0.1
+  #
+  # snapshotter:
+  #   # -- Kubernetes CSI snapshotter image repository
+  #   repository: registry.k8s.io/sig-storage/csi-snapshotter
+  #   # -- Snapshotter image tag
+  #   tag: v7.0.2
+  #
+  # attacher:
+  #   # -- Kubernetes CSI Attacher image repository
+  #   repository: registry.k8s.io/sig-storage/csi-attacher
+  #   # -- Attacher image tag
+  #   tag: v4.5.1
+  #
+  # resizer:
+  #   # -- Kubernetes CSI resizer image repository
+  #   repository: registry.k8s.io/sig-storage/csi-resizer
+  #   # -- Resizer image tag
+  #   tag: v1.10.1
 
   # -- Image pull policy
   imagePullPolicy: IfNotPresent
@@ -531,13 +564,13 @@ csi:
   # -- Labels to add to the CSI RBD Deployments and DaemonSets Pods
   rbdPodLabels: #"key1=value1,key2=value2"
 
-  csiAddons:
-    # -- Enable CSIAddons
-    enabled: false
-    # -- CSIAddons sidecar image repository
-    repository: quay.io/csiaddons/k8s-sidecar
-    # -- CSIAddons sidecar image tag
-    tag: v0.8.0
+  # csiAddons:
+  #   # -- Enable CSIAddons
+  #   enabled: false
+  #   # -- CSIAddons sidecar image repository
+  #   repository: quay.io/csiaddons/k8s-sidecar
+  #   # -- CSIAddons sidecar image tag
+  #   tag: v0.8.0
 
   nfs:
     # -- Enable the nfs csi driver
@@ -641,7 +674,7 @@ discoverDaemonUdev:
 
 # -- imagePullSecrets option allow to pull docker images from private docker registry. Option will be passed to all service accounts.
 imagePullSecrets:
-# - name: my-registry-secret
+- name: gitlab-root-secret
 
 # -- Whether the OBC provisioner should watch on the operator namespace or not, if not the namespace of the cluster will be used
 enableOBCWatchOperatorNamespace: true
