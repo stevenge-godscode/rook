@@ -1,0 +1,39 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    image: registry.godscode.com.cn/gtja/public/ceph/ceph:v18.2.4
+    allowUnsupported: false
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 3
+    allowMultiplePerNode: false
+  mgr:
+    count: 1
+    allowMultiplePerNode: false
+  storage:
+    useAllNodes: false       # 设置为 false，以便你可以指定具体节点
+    useAllDevices: false     # 设置为 false，以便你可以指定具体设备
+    config:
+      storeType: bluestore
+    nodes:
+    - name: "k8s-worker1"    # 指定节点名称
+      devices:
+      - name: "sdb"          # 这里是你在该节点上添加的新硬盘
+    - name: "k8s-worker2"    # 第二个节点
+      devices:
+      - name: "sdb"          # 第二个节点上的新硬盘
+    - name: "k8s-worker3"    # 如果有第三个节点，也可以配置
+      devices:
+      - name: "sdb"          # 第三个节点上的硬盘
+  resources:
+    mds:
+      limits:
+        cpu: "2"
+        memory: "4Gi"
+      requests:
+        cpu: "1"
+        memory: "2Gi"
